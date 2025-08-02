@@ -241,6 +241,62 @@ results = await miner.search_nodes(
 )
 ```
 
+### 🤖 Agent Context Retrieval
+
+Use the `ContextGenerator` class to easily retrieve and format context for LLMs and agents:
+
+```python
+import asyncio
+from ctx_miner import CtxMiner, ContextGenerator
+from ctx_miner.core.schemas import CtxMinerEpisode, CtxMinerMessage
+from ctx_miner.utils.helpers import load_config
+
+async def use_context_for_agent():
+    # Initialize ctx-miner with configuration
+    config = load_config(group_id="knowledge_base", auto_build_indices=True)
+    miner = CtxMiner(config=config)
+    context_generator = ContextGenerator(miner)
+    
+    try:
+        # Store knowledge base
+        knowledge_episodes = [
+            CtxMinerEpisode(
+                messages=[
+                    CtxMinerMessage(role="user", content="What features does the Pro plan include?"),
+                    CtxMinerMessage(role="assistant", content="Pro plan includes: unlimited storage, priority support, API access")
+                ]
+            )
+        ]
+        await miner.add_episodes(knowledge_episodes)
+        
+        # Retrieve context for a query
+        query = "Tell me about the Pro plan benefits"
+        context = await context_generator.get_context_for_query(
+            query=query,
+            limit=5,
+            format_for_llm=True
+        )
+        
+        # Create LLM prompt with context
+        llm_prompt = f"""Based on the following context, answer the user's question.
+
+{context}
+
+Question: {query}
+Answer:"""
+        
+        # The prompt is now ready for any LLM (OpenAI, Claude, etc.)
+        print(llm_prompt)
+        
+    finally:
+        await miner.close()
+
+# Run the example
+asyncio.run(use_context_for_agent())
+```
+
+For a complete example, see [examples/agent_context_retrieval.py](./examples/agent_context_retrieval.py).
+
 ## 📋 Requirements
 
 - 🐍 Python 3.8+
