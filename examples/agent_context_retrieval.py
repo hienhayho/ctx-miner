@@ -53,7 +53,9 @@ async def simulate_customer_support_agent():
             # Conversation 2: Billing inquiry
             CtxMinerEpisode(
                 messages=[
-                    CtxMinerMessage(role="user", content="I was charged $20 extra on my last bill"),
+                    CtxMinerMessage(
+                        role="user", content="I was charged 20 dollars extra on my last bill"
+                    ),
                     CtxMinerMessage(
                         role="assistant",
                         content="Let me check your billing details. I can see the extra charge is for exceeding your data limit by 10GB last month.",
@@ -64,7 +66,7 @@ async def simulate_customer_support_agent():
                     ),
                     CtxMinerMessage(
                         role="assistant",
-                        content="You can upgrade to our unlimited plan for an additional $15/month, or you can monitor your usage through our mobile app to stay within the limit.",
+                        content="You can upgrade to our unlimited plan for an additional 15 dollars per month, or you can monitor your usage through our mobile app to stay within the limit.",
                     ),
                 ]
             ),
@@ -76,7 +78,7 @@ async def simulate_customer_support_agent():
                     ),
                     CtxMinerMessage(
                         role="assistant",
-                        content="Great! We have several options. Our most popular upgrade is the 200 Mbps plan for $79.99/month, or the 500 Mbps plan for $99.99/month.",
+                        content="Great! We have several options. Our most popular upgrade is the 200 Mbps plan for 79.99 dollars per month, or the 500 Mbps plan for 99.99 dollars per month.",
                     ),
                     CtxMinerMessage(role="user", content="What's included with the 500 Mbps plan?"),
                     CtxMinerMessage(
@@ -166,7 +168,7 @@ async def create_llm_prompt_with_context():
                     CtxMinerMessage(role="user", content="How much does the Pro plan cost?"),
                     CtxMinerMessage(
                         role="assistant",
-                        content="The Pro plan is $49/month when billed monthly, or $39/month when billed annually (saving you $120/year).",
+                        content="The Pro plan is 49 dollars per month when billed monthly, or 39 dollars per month when billed annually (saving you 120 dollars per year).",
                     ),
                 ]
             ),
@@ -216,12 +218,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    # Configure logger
-    logger.remove()
-    logger.add(
-        lambda msg: print(msg, end=""),
-        format="<green>{time:HH:mm:ss}</green> | <level>{level: <8}</level> | {message}",
-        level="INFO",
-    )
-
     asyncio.run(main())
