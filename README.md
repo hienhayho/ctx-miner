@@ -29,7 +29,7 @@ pip install ctx-miner
 ### 💻 Development Installation
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/hienhayho/ctx-miner.git
 cd ctx-miner
 uv sync
 ```
@@ -60,44 +60,23 @@ FALKORDB_USERNAME=
 FALKORDB_PASSWORD=
 ```
 
-### 2. 💡 Basic Usage
+### 2. 💡 Quick Usage
 
 ```python
 import asyncio
 from ctx_miner import CtxMiner
-from ctx_miner.core.schemas import (
-    CtxMinerConfig,
-    FalkorDBConfig,
-    CtxMinerLLMConfig,
-    EmbeddingConfig,
-    CtxMinerEpisode,
-    CtxMinerMessage
-)
+from ctx_miner.core.schemas import CtxMinerEpisode, CtxMinerMessage
+from ctx_miner.utils.helpers import load_config
 
 async def main():
     # Configure the library
-    config = CtxMinerConfig(
-        falkordb_config=FalkorDBConfig(
-            host="localhost",
-            port=6379,
-            database="my_chatbot"
-        ),
-        llm_config=CtxMinerLLMConfig(
-            provider="openai",
-            model="gpt-4o-mini"
-        ),
-        embedding_config=EmbeddingConfig(
-            provider="openai",
-            model="text-embedding-3-small"
-        ),
-        group_id="customer_support",
-        auto_build_indices=True
-    )
+    config = load_config(group_id="demo_conversation", auto_build_indices=True)
     
     # Initialize CtxMiner
     miner = CtxMiner(config=config)
     
     try:
+        await miner.initialize()
         # Create a conversation episode
         episode = CtxMinerEpisode(
             messages=[
