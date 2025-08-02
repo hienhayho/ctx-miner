@@ -131,8 +131,6 @@ async def main():
     miner = CtxMiner(config=config)
 
     try:
-        await miner.initialize()
-
         await run_simple_conversation(miner)
         await run_customer_service_and_check_cross_conversation_search(miner)
     except Exception as e:

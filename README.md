@@ -76,7 +76,6 @@ async def main():
     miner = CtxMiner(config=config)
     
     try:
-        await miner.initialize()
         # Create a conversation episode
         episode = CtxMinerEpisode(
             messages=[

@@ -19,10 +19,6 @@ async def main():
     miner = CtxMiner(config=config)
 
     try:
-        # Initialize the miner
-        await miner.initialize()
-        logger.success("CtxMiner initialized successfully!")
-
         # Add some conversation messages
         logger.info("Adding conversation messages...")
 
@@ -66,9 +62,7 @@ async def main():
         ]
 
         # Add all messages using the new add_episodes method
-        episode_uuids = await miner.add_episodes(
-            episodes, description="Restaurant Chat"
-        )
+        episode_uuids = await miner.add_episodes(episodes, description="Restaurant Chat")
         logger.success(f"Added {len(episode_uuids)} conversation messages")
 
         # Search for relevant context
