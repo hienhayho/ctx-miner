@@ -1,0 +1,56 @@
+[project]
+name = "ctx-miner"
+version = "0.1.0"
+description = "A library for context-aware conversational AI using graph databases"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "hienhayho", email = "hienhayho3002@gmail.com" }]
+license = { text = "MIT" }
+keywords = [
+    "conversational-ai",
+    "context-mining",
+    "graph-database",
+    "falkordb",
+    "graphiti",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+dependencies = [
+    "graphiti-core[falkordb]>=0.18.2",
+    "python-dotenv>=1.0.0",
+    "redis>=5.0.0",
+    "loguru>=0.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
