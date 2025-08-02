@@ -30,11 +30,11 @@ def load_config(group_id: str, auto_build_indices: bool) -> CtxMinerConfig:
         ),
         llm_config=CtxMinerLLMConfig(
             provider=os.getenv("LLM_PROVIDER", "openai"),
-            model=os.getenv("LLM_MODEL", "gpt-4o-mini"),
+            model=os.getenv("LLM_MODEL", "gpt-4.1-mini"),
             base_url=os.getenv("LLM_BASE_URL"),
             temperature=float(os.getenv("LLM_TEMPERATURE", "0.0")),
-            max_tokens=int(os.getenv("LLM_MAX_TOKENS", "8192")),
-            small_model=os.getenv("LLM_SMALL_MODEL", "gpt-4o-mini"),
+            max_tokens=int(os.getenv("LLM_MAX_TOKENS", "32768")),
+            small_model=os.getenv("LLM_SMALL_MODEL", "gpt-4.1-nano"),
         ),
         embedding_config=EmbeddingConfig(
             provider=os.getenv("EMBEDDING_PROVIDER", "openai"),
