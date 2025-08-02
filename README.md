@@ -1,6 +1,30 @@
 # 🔍 ctx-miner
 
-🚀 A Python library for context-aware conversational AI using graph databases. Built on top of [Graphiti Core](https://github.com/getzep/graphiti), ctx-miner provides an easy-to-use interface for storing, retrieving, and analyzing conversational context using graph-based knowledge representation.
+🚀 A Python library for context-aware conversational AI using graph databases. Built on top of [Graphiti Core](https://github.com/getzep/graphiti), `ctx-miner` provides an easy-to-use interface for storing, retrieving, and analyzing conversational context using graph-based knowledge representation.
+
+## 📑 Table of Contents
+
+- [✨ Features](#-features)
+- [📦 Installation](#-installation)
+  - [🔧 Using uv (Recommended)](#-using-uv-recommended)
+  - [🐍 Using pip](#-using-pip)
+  - [💻 Development Installation](#-development-installation)
+- [🚀 Quick Start](#-quick-start)
+  - [1. 🔐 Environment Setup](#1--environment-setup)
+  - [2. 💡 Quick Usage](#2--quick-usage)
+- [⚙️ Configuration](#️-configuration)
+  - [🎛️ CtxMinerConfig](#️-ctxminerconfig)
+  - [🌍 Environment Variables](#-environment-variables)
+- [📚 Core Concepts](#-core-concepts)
+  - [📝 Episodes](#-episodes)
+  - [🔍 Search and Retrieval](#-search-and-retrieval)
+- [🎯 Advanced Usage](#-advanced-usage)
+  - [📦 Batch Processing](#-batch-processing)
+  - [🗂️ Episode Management](#️-episode-management)
+  - [🔧 Custom Search Configuration](#-custom-search-configuration)
+  - [🤖 Agent Context Retrieval](#-agent-context-retrieval)
+- [📄 License](#-license)
+- [💬 Support](#-support)
 
 ## ✨ Features
 
@@ -297,32 +321,13 @@ asyncio.run(use_context_for_agent())
 
 For a complete example, see [examples/agent_context_retrieval.py](./examples/agent_context_retrieval.py).
 
-## 📋 Requirements
-
-- 🐍 Python 3.8+
-- 🗄️ FalkorDB instance (Redis with graph capabilities)
-- 🔑 OpenAI API key (or other supported LLM provider)
-
-## 📚 Dependencies
-
-- 🕸️ `graphiti-core[falkordb]`: Graph-based knowledge management
-- 📝 `loguru`: Structured logging
-- ✅ `pydantic`: Data validation and serialization
-- 📊 `tqdm`: Progress bars for batch operations
-- 🔐 `python-dotenv`: Environment variable management
-
 ## 📄 License
 
-[Add your license information here]
-
-## 🤝 Contributing
-
-[Add contribution guidelines here]
+[MIT License](./LICENSE)
 
 ## 💬 Support
 
 For issues and questions:
 
 - 📁 Check the [examples](./examples/) directory
-- 📖 Review the [documentation](./docs/)
 - 🐛 Open an issue on GitHub
