@@ -62,8 +62,8 @@ async def main():
         ]
 
         # Add all messages using the new add_episodes method
-        episode_uuids = await miner.add_episodes(episodes, description="Restaurant Chat")
-        logger.success(f"Added {len(episode_uuids)} conversation messages")
+        await miner.add_episodes(episodes, description="Restaurant Chat")
+        logger.success(f"Added {len(episodes)} messages")
 
         # Search for relevant context
         logger.info("Searching for context...")

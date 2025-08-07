@@ -52,5 +52,4 @@ def format_episode(episode: CtxMinerEpisode) -> str:
     Format a message to be used in the CtxMiner.
     """
     result = "\n".join([f"{message.role}: {message.content}" for message in episode.messages])
-    print(result)
     return result

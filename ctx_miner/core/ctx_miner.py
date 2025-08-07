@@ -1,12 +1,14 @@
 """Main CtxMiner class for managing conversational context."""
 
+import logging
 import asyncio
-from tqdm import tqdm
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any
+from uuid import uuid4
 
 from graphiti_core import Graphiti
 from graphiti_core.nodes import EpisodeType, EpisodicNode
+from graphiti_core.utils.bulk_utils import RawEpisode
 from graphiti_core.search.search_config_recipes import NODE_HYBRID_SEARCH_RRF
 from graphiti_core.search.search_config import SearchConfig
 from loguru import logger
@@ -24,6 +26,7 @@ class CtxMiner:
     def __init__(
         self,
         config: CtxMinerConfig,
+        debug: bool = False,
     ):
         """
         Initialize CtxMiner.
@@ -32,6 +35,8 @@ class CtxMiner:
             config: CtxMiner configuration
         """
         self.config = config
+        if debug:
+            logging.basicConfig(level=logging.INFO)
 
         # Initialize managers
         self.db_manager = FalkorDBManager(config=self.config.falkordb_config)
@@ -120,16 +125,13 @@ class CtxMiner:
         episodes: List[CtxMinerEpisode],
         name: Optional[str] = None,
         description: Optional[str] = None,
-    ) -> List[str]:
+    ) -> list[str]:
         """
         Add multiple messages from a conversation format.
 
         Args:
             episodes: List of CtxMinerMessage objects
             description: Optional description of the episode
-
-        Returns:
-            List[str]: List of UUIDs of created episodes
 
         Example:
             episodes = [
@@ -140,21 +142,32 @@ class CtxMiner:
                     ]
                 )
             ]
-            uuids = await miner.add_episodes(episodes)
+            await miner.add_episodes(episodes)
         """
         await self.initialize()
 
-        uuids = []
-        for i, episode in tqdm(
-            enumerate(episodes), total=len(episodes), desc="Adding episodes ..."
-        ):
-            # Validate message format
-            if not isinstance(episode, CtxMinerEpisode):
-                raise ValueError(f"Episode at index {i} must be a CtxMinerEpisode object")
+        if not name:
+            name = f"Message_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}"
 
-            # Add episode to graph
-            uuid = await self.add_episode(episode, name=name, description=description)
-            uuids.append(uuid)
+        if not description:
+            description = (
+                f"Episode added on {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}"
+            )
+
+        uuids = [str(uuid4()) for _ in episodes]
+        bulk_episodes = [
+            RawEpisode(
+                uuid=uuid,
+                name=name,
+                content=format_episode(episode),
+                source=EpisodeType.message,
+                source_description=description,
+                reference_time=datetime.now(timezone.utc),
+            )
+            for episode, uuid in zip(episodes, uuids)
+        ]
+
+        await self._graphiti.add_episode_bulk(bulk_episodes, group_id=self.config.group_id)
 
         logger.info(f"Added {len(episodes)} episodes to conversation")
         return uuids
